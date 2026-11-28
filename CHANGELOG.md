@@ -1,5 +1,31 @@
 # @felipe-sant/claude-kit
 
+## 1.2.0
+
+### Minor Changes
+
+- [#159](https://github.com/felipe-sant/claude-kit/pull/159) [`3e3cc83`](https://github.com/felipe-sant/claude-kit/commit/3e3cc836475715c56893063bda281fd34ce2ba8b) Thanks [@felipe-sant](https://github.com/felipe-sant)! - Nova skill de TDD para todos os projetos, com o ciclo de teste primeiro, a tabela que liga cada critério a um teste e a prova de que os testes falham quando o comportamento quebra. Os devs, o executor e o revisor passam a usá-la.
+
+- [#164](https://github.com/felipe-sant/claude-kit/pull/164) [`6f86be1`](https://github.com/felipe-sant/claude-kit/commit/6f86be17f6d49542a9fc2bb3144c0ab17facd685) Thanks [@felipe-sant](https://github.com/felipe-sant)! - Nova skill de testes de unidade, de hook e de componente com Vitest e Testing Library, entregue a projetos que usam uma das duas ferramentas. A Testing Library passa a ser reconhecida pelos pacotes do projeto.
+
+- [#162](https://github.com/felipe-sant/claude-kit/pull/162) [`6877a70`](https://github.com/felipe-sant/claude-kit/commit/6877a70239302c11083b0355acdb362f976a2647) Thanks [@felipe-sant](https://github.com/felipe-sant)! - Nova skill de testes de ponta a ponta com Playwright e verificação de acessibilidade, entregue aos projetos que usam Playwright.
+
+- [#153](https://github.com/felipe-sant/claude-kit/pull/153) [`46311b2`](https://github.com/felipe-sant/claude-kit/commit/46311b242f061335bf002b5ac41925e95d88024f) Thanks [@ajudante-jerry](https://github.com/apps/ajudante-jerry)! - Nova skill de QA exploratório de uma tela para projetos React, com as combinações a conferir e o relatório de falhas em formato fixo. O agente de QA passa a usá-la ao validar telas.
+
+- [#163](https://github.com/felipe-sant/claude-kit/pull/163) [`a7b97e3`](https://github.com/felipe-sant/claude-kit/commit/a7b97e3c01fe1ff4ceecd488dad666b6314aff64) Thanks [@felipe-sant](https://github.com/felipe-sant)! - Duas novas skills para projetos com Redux Toolkit: uma para criar fatias de estado e outra para criar endpoints de API com RTK Query. Elas chegam sozinhas aos projetos que usam a biblioteca.
+
+- [#157](https://github.com/felipe-sant/claude-kit/pull/157) [`dccccd6`](https://github.com/felipe-sant/claude-kit/commit/dccccd62d5667ccd30b9e6c0f441978a318c58f7) Thanks [@felipe-sant](https://github.com/felipe-sant)! - O catálogo passa a reconhecer três tecnologias pelas dependências do projeto, inclusive as de desenvolvimento: Vitest, Playwright e Redux Toolkit. O conteúdo de cada uma chega nas próximas mudanças.
+
+- [#158](https://github.com/felipe-sant/claude-kit/pull/158) [`8adab3a`](https://github.com/felipe-sant/claude-kit/commit/8adab3a1e8bcf1300958a44ac3cb89d68a1dd7b0) Thanks [@felipe-sant](https://github.com/felipe-sant)! - Novo modelo de ganchos, aplicado a todos os projetos: barra commit e envio direto em branch protegida, envio forçado e remoção recursiva de arquivos, e formata e confere cada arquivo editado. A sincronização acrescenta os ganchos sem tirar os que o projeto já tem, e `CLAUDE_KIT_HOOKS_OFF=1` desliga tudo.
+
+### Patch Changes
+
+- [#165](https://github.com/felipe-sant/claude-kit/pull/165) [`854d78c`](https://github.com/felipe-sant/claude-kit/commit/854d78c745bafbc906721b765db32e0f33dd959c) Thanks [@felipe-sant](https://github.com/felipe-sant)! - O dev frontend, o revisor e o QA passam a seguir as regras e skills de frontend quando elas estão instaladas no projeto. O revisor bloqueia a entrega de tela que descumpre acessibilidade ou testes.
+
+- [#156](https://github.com/felipe-sant/claude-kit/pull/156) [`bed9c6a`](https://github.com/felipe-sant/claude-kit/commit/bed9c6a6fb8f764e8818797fb819c58ae043bd60) Thanks [@ajudante-jerry](https://github.com/apps/ajudante-jerry)! - Em modo time, os devs chamam o agente de especificação sem nome, e ele sempre termina com o relatório no retorno. Se o relatório não chegar, o dev confere o arquivo e o último commit.
+
+- [#161](https://github.com/felipe-sant/claude-kit/pull/161) [`18e8631`](https://github.com/felipe-sant/claude-kit/commit/18e8631e56eff55149f6341f719355fe5bde6f4d) Thanks [@ajudante-jerry](https://github.com/apps/ajudante-jerry)! - A regra de git agora explica como fechar uma mesclagem com conflito, que não aceita commit com caminhos.
+
 ## 1.1.0
 
 ### Minor Changes

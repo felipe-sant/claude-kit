@@ -2,99 +2,99 @@
   "files": {
     ".claude/agents/dev-backend.md": {
       "hash": "79897e298d4305a0da7206b382895cde6f86d9530a221d64dcc470a9d924c4e8",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/agents/dev-devops.md": {
       "hash": "686f20fb9ff6d203d4c233f1359fd868377976c995dd85b52bd7e602eab1a551",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/agents/dev-doc.md": {
       "hash": "fc8e889623523dab8c8aa59ffef2d602d4410e26db21141973c2c035bb02dcf8",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/agents/executor.md": {
       "hash": "dd52d6ec78911b90e6bd03b43efacc8b818ba68bd69cb7e347cbc33f747f353b",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/agents/product-owner.md": {
       "hash": "2eb3d116b03f31402d3f7d40117f8e1d1c45980df200568d2c84ad1c08265939",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/agents/qa.md": {
       "hash": "7bd027d9fa6aac6db602f17efab2ee1f9501772588587ff51f9594061ca76682",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/agents/reviewer.md": {
       "hash": "449b50f27aa8bb2023bb153453c8a6d814c2dbec4755d4ab9c9ba88343e4af4f",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/agents/sdd.md": {
       "hash": "2fffee5bcedaf5c4b8d67686df2cd4d323138e33fb2c274b6aeca2f46454bb2e",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/rules/code-standard.md": {
       "hash": "68dbbe15146d21e06f25115b0ac43919ecf626d1381bda0c3a7506d0433d197d",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/rules/commit-standard.md": {
       "hash": "e8c5dc1b45d12df909680300b2852b5c38d2a1530fe2f51bf0f9aff2285778b3",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/rules/feedback-standard.md": {
       "hash": "babe9c2346b706073145823e55a8a7f14b178afcd3e21f915222617006bcc35d",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/rules/git-standard.md": {
       "hash": "65474274d6d0f22e4fb3627a6c98bd6598c031bdcbae1ca776e494f7590d13ea",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/rules/issue-standard.md": {
       "hash": "c8119fab0ce8262d327404a0ed79418205a9a839dac12e8fa57d51efabb3133e",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/rules/pull-request-standard.md": {
       "hash": "865577e8ef1481674eef1baaee9c8ca918f0eff40b5d105d4a1b750664ec7ae4",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/rules/review-standard.md": {
       "hash": "63d5d5771fef30e3c917f04d663370b63946241f0b7a2731673e11de79112f2f",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/rules/security-standard.md": {
       "hash": "7a90692bfc2fde993ab76802543447eaa819238e70e115fab004a715bef95ce7",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/rules/testing-standard.md": {
       "hash": "3d262a50ff72bc470b917ce87d91eedd090393145ac9d657b0c88578399dc6f0",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/skills/bug-investigation/SKILL.md": {
       "hash": "a23aa1716f9cdbf06a93a260599d7073c630c9ca1193f5cbf1ac39abbb7eac63",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/skills/code-review/SKILL.md": {
       "hash": "3b9f4d0b3f833328ceff57803d83df5416f1fcf1c4e7c204f1324e162b4f1fe7",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/skills/commit-message/SKILL.md": {
       "hash": "b30840e7fa8c1c5b095d5c2d9d66debad599f280ffe5543b0faf1c9b6e449316",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/skills/create-pull-request/SKILL.md": {
       "hash": "6ce900787a5c66ba61e44403403927d1fe0ec0d1a9e9c1ee40a53266687fd832",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/skills/documentation/SKILL.md": {
       "hash": "ebcf8a1cbf8111b3916d3708215e2d405d3058e703f5511e85e610cdc8e43bf2",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/skills/tdd/SKILL.md": {
       "hash": "13ef092707c6f2f38b94fdc107d3e202c2c0f48582e517ba585e1f23b03ba79c",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     ".claude/skills/team-setup/SKILL.md": {
       "hash": "8c1c272aeb5ba672f90c9e84e2dd752aef4710622d941329f9cf7ff5d054ceaa",
-      "version": "1.1.0"
+      "version": "1.2.0"
     }
   },
   "settings": {
