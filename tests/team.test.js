@@ -438,4 +438,6 @@ test('o qa cita as skills de QA exploratório e de auditoria de acessibilidade, 
 
   assert.match(text, /use a skill `exploratory-qa`, se estiver instalada/)
   assert.match(text, /use a skill `accessibility-audit`, se estiver instalada/)
+  assert.doesNotMatch(text, /playwright-e2e/)
+  assert.doesNotMatch(text, /unit-component-testing/)
 })
