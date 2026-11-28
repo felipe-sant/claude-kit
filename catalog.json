@@ -60,6 +60,20 @@
         "dependencies": ["vitest"]
       }
     },
+    "testing-library": {
+      "description": "Projetos com testes de tela em Testing Library.",
+      "detect": {
+        "dependencies": [
+          "@testing-library/dom",
+          "@testing-library/react",
+          "@testing-library/vue",
+          "@testing-library/angular",
+          "@testing-library/svelte",
+          "@testing-library/preact",
+          "@testing-library/react-native"
+        ]
+      }
+    },
     "playwright": {
       "description": "Projetos com testes de ponta a ponta em Playwright.",
       "detect": {
@@ -263,6 +277,11 @@
       "applies": ["all"],
       "description": "Descobre a causa de um bug com evidências e propõe a correção e o teste."
     },
+    "tdd": {
+      "path": "skills/tdd",
+      "applies": ["all"],
+      "description": "Ciclo de TDD, tabela de adequação dos testes e prova de que o teste falha."
+    },
     "documentation": {
       "path": "skills/documentation",
       "applies": ["all"],
@@ -282,6 +301,16 @@
       "path": "stacks/react/skills/exploratory-qa",
       "applies": ["react"],
       "description": "Roteiro de teste exploratório de uma tela e relatório de falhas em formato fixo."
+    },
+    "playwright-e2e": {
+      "path": "stacks/playwright/skills/playwright-e2e",
+      "applies": ["playwright"],
+      "description": "Cria e depura testes de ponta a ponta com Playwright e verificação de acessibilidade."
+    },
+    "unit-component-testing": {
+      "path": "stacks/vitest/skills/unit-component-testing",
+      "applies": ["vitest", "testing-library"],
+      "description": "Escreve, roda e depura testes de unidade, de hook e de componente com Vitest e Testing Library."
     },
     "nestjs-module": {
       "path": "stacks/nestjs/skills/nestjs-module",

@@ -51,6 +51,14 @@ test('o padrão de git proíbe adicionar tudo, manda commitar por caminho e traz
   }
 })
 
+test('o padrão de git prevê como fechar uma mesclagem com conflito', () => {
+  const text = fs.readFileSync(path.join(h.repoRoot, catalog.rules['git-standard'].path), 'utf8')
+
+  assert.match(text, /fechar uma mesclagem em andamento/)
+  assert.match(text, /git commit --no-edit/)
+  assert.match(text, /worktree própria da tarefa/)
+})
+
 test('as receitas de commit por caminho e de histórico sem editor funcionam em um repositório', () => {
   const dir = h.tempDir('git')
   const git = (...args) => spawnSync('git', args, { cwd: dir, encoding: 'utf8', env: { ...process.env, GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t' } })
@@ -168,4 +176,19 @@ test('o padrão de git explica como commitar ao tirar um arquivo do controle de 
   assert.match(text, /`git add -u`/)
   assert.match(text, /`git commit -a`/)
   assert.match(text, /git commit -m "Feat :sparkles: \[#1\] Adiciona X" -- caminho\/a\.ts caminho\/b\.ts/)
+})
+
+const tddCiters = ['dev-frontend', 'dev-backend', 'dev-mobile', 'dev-devops', 'dev-database', 'dev-fullstack', 'executor', 'reviewer']
+const executorCallers = ['dev-frontend', 'dev-backend', 'dev-mobile', 'dev-devops', 'dev-database', 'dev-fullstack']
+
+test('devs que escrevem código, executor e reviewer citam a skill tdd', () => {
+  for (const name of tddCiters) {
+    assert.match(body(name), /skill `tdd`/, `${name} deve citar a skill tdd`)
+  }
+})
+
+test('a instrução que o dev passa ao executor inclui a skill tdd', () => {
+  for (const name of executorCallers) {
+    assert.match(body(name), /as regras deste time: nunca escrever comentários, TDD em lógica e comportamento \(skill `tdd`\)/, `${name} deve mandar o executor usar a skill tdd`)
+  }
 })

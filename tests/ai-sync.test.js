@@ -229,6 +229,38 @@ test('projeto React sem nenhuma das três tecnologias não recebe o conteúdo de
   assert.deepEqual(technologyRulesIn(target), [])
 })
 
+function twoStackSkillCore() {
+  return h.makeCore({
+    items: [
+      { group: 'agents', name: 'orchestrator', files: agent('orchestrator') },
+      { group: 'skills', name: 'shared-skill', applies: ['alpha', 'beta'], files: { 'SKILL.md': '# Skill\n' } }
+    ],
+    stacks: {
+      alpha: { description: 'Alpha', detect: { dependencies: ['alpha-pkg'] } },
+      beta: { description: 'Beta', detect: { dependencies: ['beta-pkg'] } }
+    },
+    profiles: { minimal: { agents: ['orchestrator'], rules: [] } }
+  })
+}
+
+const twoStackSkillCases = [
+  { name: 'só a primeira stack', packages: { 'alpha-pkg': '1' }, stacks: /Stacks detectadas: alpha$/m, delivered: true },
+  { name: 'só a segunda stack', packages: { 'beta-pkg': '1' }, stacks: /Stacks detectadas: beta$/m, delivered: true },
+  { name: 'as duas stacks', packages: { 'alpha-pkg': '1', 'beta-pkg': '1' }, stacks: /Stacks detectadas: alpha, beta$/m, delivered: true },
+  { name: 'nenhuma das duas stacks', packages: { other: '1' }, stacks: /Stacks detectadas: nenhuma$/m, delivered: false }
+]
+
+for (const { name, packages, stacks, delivered } of twoStackSkillCases) {
+  test(`skill aplicada a duas stacks com ${name}: ${delivered ? 'é entregue uma vez' : 'não é entregue'}`, () => {
+    const target = h.makeTarget({ 'package.json': JSON.stringify({ devDependencies: packages }) })
+    const result = h.run(twoStackSkillCore(), target)
+
+    assert.match(result.output, stacks)
+    assert.equal(h.exists(target, '.claude/skills/shared-skill/SKILL.md'), delivered)
+    assert.deepEqual(fs.existsSync(path.join(target, '.claude', 'skills')) ? fs.readdirSync(path.join(target, '.claude', 'skills')) : [], delivered ? ['shared-skill'] : [])
+  })
+}
+
 test('o perfil manual prevalece sobre a detecção', () => {
   const core = stackCore()
   const target = h.makeTarget({ 'package.json': JSON.stringify({ dependencies: { react: '18' } }) })

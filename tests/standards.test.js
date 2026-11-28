@@ -123,7 +123,7 @@ test('cada padrão de stack se limita aos arquivos da stack e todo padrão é cu
   }
 })
 
-const generalSkills = ['bug-investigation', 'code-review', 'commit-message', 'create-pull-request', 'documentation', 'team-setup']
+const generalSkills = ['bug-investigation', 'code-review', 'commit-message', 'create-pull-request', 'documentation', 'tdd', 'team-setup']
 const reduxSkills = ['redux-slice', 'rtk-query-endpoint']
 const conventionSentence = 'Se o projeto já tem uma convenção própria, ela vence esta skill.'
 const stackSkills = { react: ['react-component', 'accessibility-audit', 'exploratory-qa'], nestjs: ['nestjs-module'], 'redux-toolkit': reduxSkills }
@@ -226,8 +226,30 @@ test('cada skill do catálogo diz quando usar e o que entrega', () => {
   }
 })
 
+test('a skill de TDD vale para todos, está em todos os perfis e cobre os pontos da issue', () => {
+  assert.deepEqual(catalog.skills.tdd.applies, ['all'])
+  for (const file of fs.readdirSync(path.join(h.repoRoot, 'profiles'))) {
+    const profile = JSON.parse(fs.readFileSync(path.join(h.repoRoot, 'profiles', file), 'utf8'))
+    assert.ok(profile.skills.includes('tdd'), `${file} deve trazer a skill tdd`)
+  }
+  const text = fs.readFileSync(path.join(h.repoRoot, catalog.skills.tdd.path, 'SKILL.md'), 'utf8')
+  for (const point of [/pelo motivo certo/, /código mínimo/, /tabela de adequação/, /defeito/, /bug/, /nunca altere nem apague um teste/i]) {
+    assert.match(text, point)
+  }
+  assert.doesNotMatch(text, /(npm|npx|jest|vitest|pytest|phpunit) /i)
+})
+
 const technologyStacks = {
   vitest: ['vitest'],
+  'testing-library': [
+    '@testing-library/dom',
+    '@testing-library/react',
+    '@testing-library/vue',
+    '@testing-library/angular',
+    '@testing-library/svelte',
+    '@testing-library/preact',
+    '@testing-library/react-native'
+  ],
   playwright: ['@playwright/test', 'playwright'],
   'redux-toolkit': ['@reduxjs/toolkit']
 }
@@ -239,10 +261,141 @@ for (const [stack, dependencies] of Object.entries(technologyStacks)) {
   })
 }
 
-test('projeto só com Vitest, sem conteúdo para a stack, recebe só os padrões gerais', () => {
-  const target = h.makeTarget({ 'package.json': JSON.stringify({ devDependencies: { vitest: '2' } }) })
+const testingSkill = 'unit-component-testing'
+
+function packageJson(dependencies) {
+  return { 'package.json': JSON.stringify({ devDependencies: dependencies }) }
+}
+
+test('a skill de testes é aplicada às stacks vitest e testing-library e a nenhuma outra', () => {
+  assert.ok(catalog.skills[testingSkill].description)
+  assert.deepEqual(catalog.skills[testingSkill].applies, ['vitest', 'testing-library'])
+})
+
+test('projeto só com Vitest recebe a stack e a skill de testes', () => {
+  const target = h.makeTarget(packageJson({ vitest: '2' }))
+  const output = sync(target)
+
+  assert.match(output, /Stacks detectadas: vitest$/m)
+  assert.deepEqual(rulesOf(target), [...general].sort())
+  assert.deepEqual(skillsOf(target), [...generalSkills, testingSkill].sort())
+})
+
+for (const dependency of technologyStacks['testing-library']) {
+  test(`projeto com ${dependency} e sem Vitest recebe a stack testing-library e a skill de testes`, () => {
+    const target = h.makeTarget(packageJson({ [dependency]: '1' }))
+    const output = sync(target)
+
+    assert.match(output, /Stacks detectadas: testing-library$/m)
+    assert.deepEqual(skillsOf(target), [...generalSkills, testingSkill].sort())
+  })
+}
+
+for (const dependency of ['@testing-library/user-event', '@testing-library/jest-dom', '@testing-library/react-hooks']) {
+  test(`projeto só com ${dependency} não recebe a skill de testes`, () => {
+    const target = h.makeTarget(packageJson({ [dependency]: '1' }))
+    const output = sync(target)
+
+    assert.match(output, /Stacks detectadas: nenhuma$/m)
+    assert.deepEqual(skillsOf(target), [...generalSkills].sort())
+  })
+}
+
+test('projeto só com user-event e jest-dom juntos não recebe a skill de testes', () => {
+  const target = h.makeTarget(packageJson({ '@testing-library/user-event': '14', '@testing-library/jest-dom': '6' }))
   const output = sync(target)
 
   assert.match(output, /Stacks detectadas: nenhuma$/m)
-  assert.deepEqual(rulesOf(target), [...general].sort())
+  assert.deepEqual(skillsOf(target), [...generalSkills].sort())
+})
+
+test('projeto com Vitest e Testing Library recebe as duas stacks e a skill de testes uma única vez', () => {
+  const target = h.makeTarget(packageJson({ vitest: '2', '@testing-library/react': '16' }))
+  const output = sync(target)
+
+  assert.match(output, /Stacks detectadas: vitest, testing-library$/m)
+  assert.deepEqual(skillsOf(target), [...generalSkills, testingSkill].sort())
+})
+
+test('projeto sem Vitest nem Testing Library não recebe a skill de testes', () => {
+  const target = h.makeTarget(packageJson({ jest: '29' }))
+  const output = sync(target)
+
+  assert.doesNotMatch(output, /Stacks detectadas: .*(vitest|testing-library)/)
+  assert.deepEqual(skillsOf(target), [...generalSkills].sort())
+})
+
+test('projeto React com Vitest e Testing Library recebe as skills de React e a de testes', () => {
+  const target = h.makeTarget({
+    'package.json': JSON.stringify({
+      dependencies: { react: '18' },
+      devDependencies: { vitest: '2', '@testing-library/react': '16' }
+    })
+  })
+  sync(target)
+
+  assert.deepEqual(skillsOf(target), [...generalSkills, ...stackSkills.react, testingSkill].sort())
+})
+
+test('skill de testes editada no projeto não é sobrescrita', () => {
+  const target = h.makeTarget(packageJson({ vitest: '2' }))
+  sync(target)
+  const file = path.join(target, '.claude', 'skills', testingSkill, 'SKILL.md')
+  const edited = `${fs.readFileSync(file, 'utf8')}\nMinha regra.\n`
+  fs.writeFileSync(file, edited)
+  const output = sync(target)
+
+  assert.equal(fs.readFileSync(file, 'utf8'), edited)
+  assert.match(output, new RegExp(`${testingSkill}/SKILL\\.md: você editou este arquivo`))
+})
+
+const playwrightSkill = 'playwright-e2e'
+const playwrightProjects = {
+  'pacote de teste em dependências de desenvolvimento': { devDependencies: { '@playwright/test': '1' } },
+  'pacote da ferramenta nas dependências normais': { dependencies: { playwright: '1' } }
+}
+
+for (const [label, manifest] of Object.entries(playwrightProjects)) {
+  test(`projeto com ${label} recebe a skill de Playwright e nenhuma outra de stack`, () => {
+    const target = h.makeTarget({ 'package.json': JSON.stringify(manifest) })
+    const output = sync(target)
+
+    assert.match(output, /Stacks detectadas: playwright$/m)
+    assert.deepEqual(skillsOf(target), [...generalSkills, playwrightSkill].sort())
+    assert.ok(h.exists(target, `.claude/skills/${playwrightSkill}/SKILL.md`))
+  })
+}
+
+test('projeto React com Playwright recebe as skills de React e a de Playwright', () => {
+  const target = h.makeTarget({
+    'package.json': JSON.stringify({ dependencies: { react: '18' }, devDependencies: { '@playwright/test': '1' } })
+  })
+  sync(target)
+
+  assert.deepEqual(skillsOf(target), [...generalSkills, ...stackSkills.react, playwrightSkill].sort())
+})
+
+test('projeto sem Playwright não recebe a skill de Playwright', () => {
+  for (const files of Object.values(projects)) {
+    const target = h.makeTarget(files)
+    sync(target)
+    assert.ok(!skillsOf(target).includes(playwrightSkill))
+  }
+})
+
+test('a skill de Playwright está no catálogo só para a stack playwright', () => {
+  assert.deepEqual(catalog.skills[playwrightSkill].applies, ['playwright'])
+  assert.ok(catalog.skills[playwrightSkill].description)
+})
+
+test('a skill de Playwright cobre os assuntos pedidos, sem caminho de projeto', () => {
+  const text = fs.readFileSync(path.join(h.repoRoot, catalog.skills[playwrightSkill].path, 'SKILL.md'), 'utf8')
+  const lines = text.split('\n').length
+
+  assert.match(text, /^name: playwright-e2e$/m)
+  for (const subject of [/tempo fixo/, /getByRole/, /acessibilidade/, /tamanho/, /tema/, /instabilidade|instável/, /teste de componente/, /Dependência nova/, /Para conferência manual/]) {
+    assert.match(text, subject)
+  }
+  assert.doesNotMatch(text, /\bsrc\/|\bapp\/|\btests?\/|\.spec\.|\.test\./)
+  assert.ok(lines >= 19 && lines <= 60, `tem ${lines} linhas`)
 })
