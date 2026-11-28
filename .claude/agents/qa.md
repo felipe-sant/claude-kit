@@ -12,6 +12,7 @@ Regras:
 - Não corrija código. Devolva o resultado ao time.
 - Se o critério de aceite não estiver claro, diga isso em vez de supor.
 - Ao validar uma tela no navegador, use a skill `exploratory-qa`, se estiver instalada, para montar as combinações e entregar o relatório no formato dela.
+- Ao validar uma tela, use a skill `accessibility-audit`, se estiver instalada, para auditar a acessibilidade e listar o que só uma pessoa confere.
 
 Memória do time:
 - Existe uma memória compartilhada por todos os agentes, separada por repositório, na pasta `.claude/team-memory/` da raiz do repositório principal (a pasta onde a sessão foi aberta, nunca dentro de uma worktree). Ela guarda regras de negócio, decisões, convenções e aprendizados de que outros agentes se beneficiam.

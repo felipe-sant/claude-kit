@@ -432,3 +432,10 @@ test('o reviewer confere mudança de tela contra as regras de frontend instalada
   assert.match(text, /Descumprir qualquer item de `accessibility-standard`, de `frontend-testing-standard` ou de `testing-standard` em mudança de tela bloqueia a entrega/)
   assert.match(text, /Sem tela ou sem essas regras instaladas, não exija as regras de frontend nem bloqueie por elas/)
 })
+
+test('o qa cita as skills de QA exploratório e de auditoria de acessibilidade, cada uma se estiver instalada', () => {
+  const text = body('qa')
+
+  assert.match(text, /use a skill `exploratory-qa`, se estiver instalada/)
+  assert.match(text, /use a skill `accessibility-audit`, se estiver instalada/)
+})
