@@ -15,7 +15,8 @@ const stackRules = {
   nestjs: ['nestjs-standard'],
   laravel: ['laravel-standard'],
   adonisjs: ['adonisjs-standard'],
-  typescript: ['typescript-standard']
+  typescript: ['typescript-standard'],
+  'redux-toolkit': []
 }
 
 function sync(target, ...args) {
@@ -34,7 +35,8 @@ const projects = {
   nestjs: { 'package.json': JSON.stringify({ dependencies: { '@nestjs/core': '10' } }) },
   laravel: { 'composer.json': JSON.stringify({ require: { 'laravel/framework': '11' } }) },
   adonisjs: { 'package.json': JSON.stringify({ dependencies: { '@adonisjs/core': '6' } }) },
-  typescript: { 'package.json': JSON.stringify({ devDependencies: { typescript: '5' } }) }
+  typescript: { 'package.json': JSON.stringify({ devDependencies: { typescript: '5' } }) },
+  'redux-toolkit': { 'package.json': JSON.stringify({ dependencies: { '@reduxjs/toolkit': '2' } }) }
 }
 
 for (const [stack, files] of Object.entries(projects)) {
@@ -122,7 +124,9 @@ test('cada padrão de stack se limita aos arquivos da stack e todo padrão é cu
 })
 
 const generalSkills = ['bug-investigation', 'code-review', 'commit-message', 'create-pull-request', 'documentation', 'tdd', 'team-setup']
-const stackSkills = { react: ['react-component', 'accessibility-audit', 'exploratory-qa'], nestjs: ['nestjs-module'] }
+const reduxSkills = ['redux-slice', 'rtk-query-endpoint']
+const conventionSentence = 'Se o projeto já tem uma convenção própria, ela vence esta skill.'
+const stackSkills = { react: ['react-component', 'accessibility-audit', 'exploratory-qa'], nestjs: ['nestjs-module'], 'redux-toolkit': reduxSkills }
 
 function skillsOf(target) {
   const dir = path.join(target, '.claude', 'skills')
@@ -148,6 +152,54 @@ test('projeto com React e NestJS recebe as skills das duas stacks', () => {
   sync(target)
 
   assert.deepEqual(skillsOf(target), [...generalSkills, 'react-component', 'accessibility-audit', 'exploratory-qa', 'nestjs-module'].sort())
+})
+
+test('projeto com Redux Toolkit só em dependências de desenvolvimento recebe as skills de Redux', () => {
+  const target = h.makeTarget({ 'package.json': JSON.stringify({ devDependencies: { '@reduxjs/toolkit': '2' } }) })
+  const output = sync(target)
+
+  assert.match(output, /Stacks detectadas: redux-toolkit$/m)
+  assert.deepEqual(skillsOf(target), [...generalSkills, ...reduxSkills].sort())
+})
+
+test('projeto com React e Redux Toolkit recebe as skills das duas stacks e de mais nenhuma', () => {
+  const target = h.makeTarget({
+    'package.json': JSON.stringify({ dependencies: { react: '18', '@reduxjs/toolkit': '2' } })
+  })
+  sync(target)
+
+  assert.deepEqual(skillsOf(target), [...generalSkills, ...stackSkills.react, ...reduxSkills].sort())
+})
+
+test('projeto só com o pacote redux, sem o Toolkit, não recebe as skills de Redux', () => {
+  const target = h.makeTarget({ 'package.json': JSON.stringify({ dependencies: { redux: '5' } }) })
+  sync(target)
+
+  assert.deepEqual(skillsOf(target), [...generalSkills].sort())
+})
+
+test('toda skill de Redux Toolkit diz que a convenção do projeto vence', () => {
+  const reduxCatalogSkills = Object.entries(catalog.skills).filter(([, item]) => item.applies.includes('redux-toolkit'))
+
+  assert.deepEqual(reduxCatalogSkills.map(([name]) => name).sort(), [...reduxSkills].sort())
+  for (const [name, item] of reduxCatalogSkills) {
+    const text = fs.readFileSync(path.join(h.repoRoot, item.path, 'SKILL.md'), 'utf8')
+    assert.ok(text.includes(conventionSentence), `${name} deve dizer que a convenção do projeto vence`)
+  }
+})
+
+test('as skills de Redux Toolkit dizem que os hooks valem só com React', () => {
+  for (const name of reduxSkills) {
+    const text = fs.readFileSync(path.join(h.repoRoot, catalog.skills[name].path, 'SKILL.md'), 'utf8')
+    assert.match(text, /Os hooks valem só em projetos com React/, `${name} deve limitar os hooks ao React`)
+  }
+})
+
+test('a skill de endpoint sugere o MSW e remete ao roteiro de dependência nova', () => {
+  const text = fs.readFileSync(path.join(h.repoRoot, catalog.skills['rtk-query-endpoint'].path, 'SKILL.md'), 'utf8')
+
+  assert.match(text, /MSW/)
+  assert.match(text, /Dependência nova/)
 })
 
 test('skill editada no projeto não é sobrescrita e uma skill do usuário nunca é tocada', () => {

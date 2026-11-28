@@ -316,6 +316,16 @@
       "path": "stacks/nestjs/skills/nestjs-module",
       "applies": ["nestjs"],
       "description": "Cria um módulo NestJS completo com testes primeiro."
+    },
+    "redux-slice": {
+      "path": "stacks/redux-toolkit/skills/redux-slice",
+      "applies": ["redux-toolkit"],
+      "description": "Cria uma fatia de estado com Redux Toolkit, com hooks tipados, seletores estreitos e teste primeiro."
+    },
+    "rtk-query-endpoint": {
+      "path": "stacks/redux-toolkit/skills/rtk-query-endpoint",
+      "applies": ["redux-toolkit"],
+      "description": "Cria endpoints de API com RTK Query, com etiquetas de cache e teste primeiro."
     }
   },
   "settings": {
