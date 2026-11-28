@@ -1,6 +1,6 @@
 # Fazer o dev frontend, o revisor e o QA seguirem as regras e skills de frontend
 
-> Status: aprovada
+> Status: em-andamento
 > Tipo: funcionalidade
 > Tamanho: media
 > Branch: feat/132-agentes-de-frontend-seguem-as-regras
@@ -76,7 +76,7 @@ Os três agentes são fonte do conteúdo sincronizado (`agents/`) e as três tar
 - Teste: unitário de conteúdo. Primeiro escreva o teste que confere, na definição do dev frontend, o nome de cada uma das sete regras e de cada uma das cinco skills e a condição "se estiver instalada" (ou equivalente) na mesma frase, rode e veja falhar porque a definição ainda não as cita.
 - Gate: `node --test tests/team.test.js` (ou o arquivo onde o teste ficar), `npm run lint`, `node bin/ai-sync.js --check`.
 - Modelo: padrao
-- Status: pendente
+- Status: feita (commit 7107f5d; dev frontend lê as 7 regras e cita as 5 skills "se estiver instalada"; teste falhou antes; gate final ok: lint, 782 testes, --check, npm pack; sincronização em pasta temporária com React instala as regras de frontend e sem frontend não instala nenhuma)
 
 ### T2. Revisor confere as regras de frontend e bloqueia acessibilidade e testes
 
@@ -90,7 +90,7 @@ Os três agentes são fonte do conteúdo sincronizado (`agents/`) e as três tar
 - Teste: unitário de conteúdo. Primeiro escreva o teste que confere, na definição do revisor, os nomes das regras com a condição de estarem instaladas e, na mesma frase, `accessibility-standard`, `frontend-testing-standard`, `testing-standard` e "bloqueia" (ou "bloqueio") ligado a mudança de tela; veja falhar porque a definição ainda não os cita.
 - Gate: `node --test tests/team.test.js`, `npm run lint`, `node bin/ai-sync.js --check`.
 - Modelo: padrao
-- Status: pendente
+- Status: feita (commit 70b5be9; revisor bloqueia acessibilidade, testes de frontend e testing-standard, só em mudança de tela e com as regras instaladas; .claude regenerado; teste falhou antes; gate final ok: lint, 782 testes, --check, npm pack; sincronização em pasta temporária com React instala as regras de frontend e sem frontend não instala nenhuma)
 
 ### T3. QA usa as skills de teste de tela e de acessibilidade
 
@@ -104,7 +104,7 @@ Os três agentes são fonte do conteúdo sincronizado (`agents/`) e as três tar
 - Teste: unitário de conteúdo. Primeiro escreva o teste que confere, na definição do QA, `accessibility-audit` e "se estiver instalada" na mesma frase, que a citação de `exploratory-qa` continua e que `playwright-e2e` e `unit-component-testing` não aparecem; veja falhar porque a skill de acessibilidade ainda não é citada.
 - Gate: `node --test tests/team.test.js`, `npm run lint`, `node bin/ai-sync.js --check`.
 - Modelo: economico
-- Status: pendente
+- Status: feita (commit 7735517; QA cita exploratory-qa e accessibility-audit "se estiver instalada"; .claude regenerado; teste falhou antes; gate final ok: lint, 782 testes, --check, npm pack; sincronização em pasta temporária com React instala as regras de frontend e sem frontend não instala nenhuma)
 
 ### T4. [P] Nota de mudança
 
@@ -118,7 +118,7 @@ Os três agentes são fonte do conteúdo sincronizado (`agents/`) e as três tar
 - Teste: nenhum (texto).
 - Gate: `npm run lint` e `node --test tests/changeset-check-workflow.test.js`.
 - Modelo: economico
-- Status: pendente
+- Status: feita (commit 854d78c; nota de mudança patch; gate final ok: lint, 782 testes, --check, npm pack; sincronização em pasta temporária com React instala as regras de frontend e sem frontend não instala nenhuma)
 
 ## Dúvidas
 
