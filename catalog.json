@@ -302,6 +302,11 @@
       "applies": ["react"],
       "description": "Roteiro de teste exploratório de uma tela e relatório de falhas em formato fixo."
     },
+    "playwright-e2e": {
+      "path": "stacks/playwright/skills/playwright-e2e",
+      "applies": ["playwright"],
+      "description": "Cria e depura testes de ponta a ponta com Playwright e verificação de acessibilidade."
+    },
     "unit-component-testing": {
       "path": "stacks/vitest/skills/unit-component-testing",
       "applies": ["vitest", "testing-library"],

@@ -296,3 +296,54 @@ test('skill de testes editada no projeto não é sobrescrita', () => {
   assert.equal(fs.readFileSync(file, 'utf8'), edited)
   assert.match(output, new RegExp(`${testingSkill}/SKILL\\.md: você editou este arquivo`))
 })
+
+const playwrightSkill = 'playwright-e2e'
+const playwrightProjects = {
+  'pacote de teste em dependências de desenvolvimento': { devDependencies: { '@playwright/test': '1' } },
+  'pacote da ferramenta nas dependências normais': { dependencies: { playwright: '1' } }
+}
+
+for (const [label, manifest] of Object.entries(playwrightProjects)) {
+  test(`projeto com ${label} recebe a skill de Playwright e nenhuma outra de stack`, () => {
+    const target = h.makeTarget({ 'package.json': JSON.stringify(manifest) })
+    const output = sync(target)
+
+    assert.match(output, /Stacks detectadas: playwright$/m)
+    assert.deepEqual(skillsOf(target), [...generalSkills, playwrightSkill].sort())
+    assert.ok(h.exists(target, `.claude/skills/${playwrightSkill}/SKILL.md`))
+  })
+}
+
+test('projeto React com Playwright recebe as skills de React e a de Playwright', () => {
+  const target = h.makeTarget({
+    'package.json': JSON.stringify({ dependencies: { react: '18' }, devDependencies: { '@playwright/test': '1' } })
+  })
+  sync(target)
+
+  assert.deepEqual(skillsOf(target), [...generalSkills, ...stackSkills.react, playwrightSkill].sort())
+})
+
+test('projeto sem Playwright não recebe a skill de Playwright', () => {
+  for (const files of Object.values(projects)) {
+    const target = h.makeTarget(files)
+    sync(target)
+    assert.ok(!skillsOf(target).includes(playwrightSkill))
+  }
+})
+
+test('a skill de Playwright está no catálogo só para a stack playwright', () => {
+  assert.deepEqual(catalog.skills[playwrightSkill].applies, ['playwright'])
+  assert.ok(catalog.skills[playwrightSkill].description)
+})
+
+test('a skill de Playwright cobre os assuntos pedidos, sem caminho de projeto', () => {
+  const text = fs.readFileSync(path.join(h.repoRoot, catalog.skills[playwrightSkill].path, 'SKILL.md'), 'utf8')
+  const lines = text.split('\n').length
+
+  assert.match(text, /^name: playwright-e2e$/m)
+  for (const subject of [/tempo fixo/, /getByRole/, /acessibilidade/, /tamanho/, /tema/, /instabilidade|instável/, /teste de componente/, /Dependência nova/, /Para conferência manual/]) {
+    assert.match(text, subject)
+  }
+  assert.doesNotMatch(text, /\bsrc\/|\bapp\/|\btests?\/|\.spec\.|\.test\./)
+  assert.ok(lines >= 19 && lines <= 60, `tem ${lines} linhas`)
+})
