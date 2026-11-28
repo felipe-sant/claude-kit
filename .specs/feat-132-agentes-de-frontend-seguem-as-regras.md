@@ -1,6 +1,6 @@
 # Fazer o dev frontend, o revisor e o QA seguirem as regras e skills de frontend
 
-> Status: em-andamento
+> Status: implementada (código aprovado pelo reviewer, sem achado bloqueante; T5, recomendada pelo reviewer, pendente)
 > Tipo: funcionalidade
 > Tamanho: media
 > Branch: feat/132-agentes-de-frontend-seguem-as-regras
@@ -17,7 +17,7 @@ Os três agentes são copiados para todos os projetos, inclusive os que não tê
 - RN-01: Antes de implementar, o dev frontend lê as regras de React, TypeScript, organização de arquivos, estilo, tradução, acessibilidade e testes de frontend. Fonte: issue #132.
 - RN-01a: O dev frontend também usa, cada uma com a condição "se estiver instalada", as skills de frontend: criação de componente, testes de unidade e componente, testes de ponta a ponta, fatia de estado e endpoints com Redux Toolkit. Fonte: decisão do usuário.
 - RN-02: O revisor confere a mudança contra essas mesmas regras. Fonte: issue #132.
-- RN-03: O revisor classifica como bloqueio todo item descumprido da regra de acessibilidade e o descumprimento das regras de testes (a regra de testes de frontend e a regra geral de testes), só em mudança que mexe em tela e com essas regras instaladas. Fonte: issue #132 e decisão do usuário.
+- RN-03: O revisor classifica como bloqueio todo item descumprido da regra de acessibilidade e o descumprimento das regras de testes (a regra de testes de frontend e a regra geral de testes), só em mudança que mexe em tela e com essas regras instaladas. O bloqueio de acessibilidade vale no que o código mostra; o que depende de ver a tela (aparência, foco na prática, leitor de tela) fica com o QA e o designer, como diz o padrão de revisão. Fonte: issue #132, decisão do usuário e recomendação do reviewer.
 - RN-04: O QA usa a skill de QA exploratório e a skill de auditoria de acessibilidade, cada uma "se estiver instalada". As skills de testes de ponta a ponta e de testes de unidade e componente não entram para o QA. Fonte: issue #132 e decisão do usuário.
 - RN-05: O conteúdo de frontend só se aplica em projetos que têm frontend. Isso é feito pela citação condicional ("se estiver instalada") no texto dos agentes, sem mudar a instalação. Fonte: issue #132 e decisão do usuário.
 - RN-06: Como os três agentes vão para todos os projetos, cada regra ou skill de frontend citada vem com a condição "se estiver instalada", no mesmo formato que o QA já usa para a skill de QA exploratório. O bloqueio do revisor (RN-03) vale só para mudanças que mexem em tela. Fonte: orientação do dev que pediu a especificação e decisão do usuário.
@@ -30,7 +30,7 @@ Os três agentes são copiados para todos os projetos, inclusive os que não tê
 - CA-01a: QUANDO o dev frontend começa uma tarefa em um projeto com skills de frontend instaladas ENTÃO a definição dele DEVE mandar usar as de criação de componente, testes de unidade e componente, testes de ponta a ponta, fatia de estado e endpoints com Redux Toolkit, cada uma com a condição "se estiver instalada". Cobre RN-01a, RN-06.
 - CA-02: QUANDO o dev frontend trabalha em um projeto sem alguma dessas regras ENTÃO a definição dele DEVE deixar claro que a leitura daquela regra não se aplica, sem exigir um arquivo que não existe. Cobre RN-05, RN-06.
 - CA-03: QUANDO o revisor revisa uma entrega que mexe em tela, em um projeto com as regras de frontend instaladas, ENTÃO a definição dele DEVE mandar conferir a mudança contra as regras de React, organização de arquivos, estilo, acessibilidade, testes de frontend, TypeScript e tradução que estiverem instaladas. Cobre RN-02, RN-06.
-- CA-04: QUANDO o revisor encontra, numa mudança de tela, qualquer item descumprido da regra de acessibilidade, ou descumprimento da regra de testes de frontend ou da regra geral de testes ENTÃO a definição dele DEVE mandar classificar o achado como bloqueio. Cobre RN-03.
+- CA-04: QUANDO o revisor encontra, numa mudança de tela, qualquer item descumprido da regra de acessibilidade, ou descumprimento da regra de testes de frontend ou da regra geral de testes ENTÃO a definição dele DEVE mandar classificar o achado como bloqueio; e, para acessibilidade, DEVE limitar o bloqueio ao que o código mostra e deixar o que depende de ver a tela para o QA e o designer. Cobre RN-03.
 - CA-05: QUANDO o revisor revisa uma entrega sem tela, ou um projeto sem essas regras instaladas, ENTÃO a definição dele NÃO DEVE exigir as regras de frontend nem gerar bloqueio por elas. Cobre RN-05, RN-06.
 - CA-06: QUANDO o QA valida uma tela em um projeto com as skills de frontend instaladas ENTÃO a definição dele DEVE mandar usar a skill de QA exploratório e a skill de auditoria de acessibilidade, cada uma com a condição "se estiver instalada", e NÃO DEVE citar as skills de testes de ponta a ponta nem de testes de unidade e componente. Cobre RN-04, RN-06.
 - CA-07: QUANDO o QA valida algo em um projeto sem as skills de frontend ENTÃO a definição dele DEVE continuar valendo sem elas, sem exigir skill que não existe. Cobre RN-05, RN-06.
@@ -52,12 +52,14 @@ Os três agentes são copiados para todos os projetos, inclusive os que não tê
 - Dar ao QA as skills de testes de ponta a ponta e de testes de unidade e componente (decisão do usuário).
 - Alterar o texto das próprias regras e skills de frontend.
 - Ligar o designer às regras de estilo e acessibilidade.
+- Tornar os testes de conteúdo menos presos a frases exatas: hoje eles conferem frases exatas e quebram com qualquer mudança de texto. Sugestão opcional do reviewer, sem decisão.
 
 ## Plano de execução
 
 Os três agentes são fonte do conteúdo sincronizado (`agents/`) e as três tarefas acrescentam testes ao mesmo arquivo. Por isso elas não rodam em paralelo: seguem uma ordem fixa de commit, e a próxima só começa depois do commit da anterior. A nota de mudança não é conteúdo sincronizado e roda em paralelo.
 
 - Fase 1 (sequencial, com uma tarefa paralela): T1 → T2 → T3, e T4 [P] a qualquer momento.
+- Fase 2 (recomendação do reviewer, sequencial): T5. Gate de fase: `npm test`, `npm run lint` e `node bin/ai-sync.js --check`.
 - Gate de fase: `npm test` (suíte completa), `npm run lint` (oxlint e checagem de formato do conteúdo), `node bin/ai-sync.js --check` e a sincronização em pasta temporária com e sem React:
   `T=$(mktemp -d) && echo '{"dependencies":{"react":"1","typescript":"1","i18next":"1"}}' > "$T/package.json" && node bin/ai-sync.js "$T" && ls "$T/.claude/rules" "$T/.claude/skills"; rm -rf "$T"` e o mesmo sem `package.json`, conferindo que o segundo não recebe regra nem skill de frontend.
 - O projeto não tem typecheck, build nem formatador: o gate é testes, lint e a checagem do catálogo. Não procure typecheck.
@@ -119,6 +121,20 @@ Os três agentes são fonte do conteúdo sincronizado (`agents/`) e as três tar
 - Gate: `npm run lint` e `node --test tests/changeset-check-workflow.test.js`.
 - Modelo: economico
 - Status: feita (commit 854d78c; nota de mudança patch; gate final ok: lint, 782 testes, --check, npm pack; sincronização em pasta temporária com React instala as regras de frontend e sem frontend não instala nenhuma)
+
+### T5. Revisor limita o bloqueio de acessibilidade ao que o código mostra (recomendação do reviewer)
+
+- O quê: ajustar uma frase da definição do revisor para que o bloqueio de acessibilidade valha no que o código mostra, deixando o que depende de ver a tela para o QA e o designer.
+- Onde: `agents/reviewer.md`, `tests/team.test.js` e o gerado `.claude/agents/reviewer.md` (rode `npm run sync` e inclua o gerado nos caminhos do commit).
+- Dev: dev-doc
+- Depende de: T2 e T3 (commitadas)
+- Reaproveita: a frase do padrão de revisão sobre o que depende de ver a tela; o teste do revisor criado em T2.
+- Atende: RN-03, CA-04
+- Pronto quando: a definição do revisor diz que o bloqueio de acessibilidade vale no que o código mostra e que o que depende de ver a tela fica com o QA e o designer; o teste passa; o gate passa; um commit com a fonte, o teste e o gerado.
+- Teste: unitário de conteúdo. Primeiro ajuste o teste do revisor para conferir a nova frase, rode e veja falhar porque a definição ainda não a tem.
+- Gate: `node --test tests/team.test.js`, `npm run lint`, `node bin/ai-sync.js --check`.
+- Modelo: economico
+- Status: pendente
 
 ## Dúvidas
 
