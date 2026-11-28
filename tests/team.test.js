@@ -423,3 +423,12 @@ test('o dev-frontend lê as regras de frontend instaladas antes de implementar e
   assert.match(text, /se estiverem instaladas/)
   assert.match(text, /Regra que não está instalada não se aplica/)
 })
+
+test('o reviewer confere mudança de tela contra as regras de frontend instaladas e bloqueia descumprimento de acessibilidade e de testes', () => {
+  const text = body('reviewer')
+
+  for (const rule of frontendRules) assert.match(text, new RegExp('`' + rule + '`'), `deve citar ${rule}`)
+  assert.match(text, /Em mudança que mexe em tela, confira a entrega contra as regras de frontend que estiverem instaladas/)
+  assert.match(text, /Descumprir qualquer item de `accessibility-standard`, de `frontend-testing-standard` ou de `testing-standard` em mudança de tela bloqueia a entrega/)
+  assert.match(text, /Sem tela ou sem essas regras instaladas, não exija as regras de frontend nem bloqueie por elas/)
+})
