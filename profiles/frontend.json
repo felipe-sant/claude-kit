@@ -27,7 +27,8 @@
     "create-pull-request",
     "code-review",
     "bug-investigation",
-    "documentation"
+    "documentation",
+    "tdd"
   ],
   "settings": [
     "base",
