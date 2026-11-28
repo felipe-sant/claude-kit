@@ -21,11 +21,11 @@
       "version": "1.1.0"
     },
     ".claude/agents/qa.md": {
-      "hash": "8c5238ac4821fa261aebc82c10b08e5c77beb6861d4a8a9018ba6ad98e4aae25",
+      "hash": "7bd027d9fa6aac6db602f17efab2ee1f9501772588587ff51f9594061ca76682",
       "version": "1.1.0"
     },
     ".claude/agents/reviewer.md": {
-      "hash": "e05ad63198261a532f3db611c9d19947ce34cac7a8b0ca15636762240f3cec32",
+      "hash": "449b50f27aa8bb2023bb153453c8a6d814c2dbec4755d4ab9c9ba88343e4af4f",
       "version": "1.1.0"
     },
     ".claude/agents/sdd.md": {

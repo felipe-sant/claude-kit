@@ -410,3 +410,38 @@ test('o README lista as regras de pull request e de issues e a contagem das regr
   assert.match(readme, /as nove regras gerais/)
   assert.match(readme, /O que muda.*Como foi verificado.*Observações/s)
 })
+
+const frontendRules = ['react-standard', 'react-organization-standard', 'style-standard', 'accessibility-standard', 'frontend-testing-standard', 'typescript-standard', 'i18n-standard']
+const frontendSkills = ['react-component', 'unit-component-testing', 'playwright-e2e', 'redux-slice', 'rtk-query-endpoint']
+
+test('o dev-frontend lê as regras de frontend instaladas antes de implementar e cita as skills de frontend', () => {
+  const text = body('dev-frontend')
+
+  for (const rule of frontendRules) assert.match(text, new RegExp('`' + rule + '`'), `deve citar ${rule}`)
+  for (const skill of frontendSkills) assert.match(text, new RegExp('`' + skill + '`'), `deve citar ${skill}`)
+  assert.match(text, /Antes de implementar, leia as regras de frontend que estiverem instaladas em `\.claude\/rules\/`/)
+  assert.match(text, /se estiverem instaladas/)
+  assert.match(text, /Regra que não está instalada não se aplica/)
+})
+
+test('o reviewer confere mudança de tela contra as regras de frontend instaladas e bloqueia descumprimento de acessibilidade e de testes', () => {
+  const text = body('reviewer')
+
+  for (const rule of frontendRules) assert.match(text, new RegExp('`' + rule + '`'), `deve citar ${rule}`)
+  assert.match(text, /Em mudança que mexe em tela, confira a entrega contra as regras de frontend que estiverem instaladas/)
+  assert.match(text, /Descumprir qualquer item de `accessibility-standard`, de `frontend-testing-standard` ou de `testing-standard` em mudança de tela bloqueia a entrega/)
+  assert.match(text, /Sem tela ou sem essas regras instaladas, não exija as regras de frontend nem bloqueie por elas/)
+})
+
+test('o qa cita as skills de QA exploratório e de auditoria de acessibilidade, cada uma se estiver instalada', () => {
+  const text = body('qa')
+
+  assert.match(text, /use a skill `exploratory-qa`, se estiver instalada/)
+  assert.match(text, /use a skill `accessibility-audit`, se estiver instalada/)
+  assert.doesNotMatch(text, /playwright-e2e/)
+  assert.doesNotMatch(text, /unit-component-testing/)
+})
+
+test('o reviewer só bloqueia pelo que o código mostra e deixa o que depende de ver a tela com o qa e o designer', () => {
+  assert.match(body('reviewer'), /no que o código mostra.*o que depende de ver a tela \(aparência, foco na prática, leitor de tela\) fica com o `qa` e o `designer`/)
+})
