@@ -263,6 +263,11 @@
       "applies": ["all"],
       "description": "Descobre a causa de um bug com evidências e propõe a correção e o teste."
     },
+    "tdd": {
+      "path": "skills/tdd",
+      "applies": ["all"],
+      "description": "Ciclo de TDD, tabela de adequação dos testes e prova de que o teste falha."
+    },
     "documentation": {
       "path": "skills/documentation",
       "applies": ["all"],

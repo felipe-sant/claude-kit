@@ -121,7 +121,7 @@ test('cada padrão de stack se limita aos arquivos da stack e todo padrão é cu
   }
 })
 
-const generalSkills = ['bug-investigation', 'code-review', 'commit-message', 'create-pull-request', 'documentation', 'team-setup']
+const generalSkills = ['bug-investigation', 'code-review', 'commit-message', 'create-pull-request', 'documentation', 'tdd', 'team-setup']
 const stackSkills = { react: ['react-component', 'accessibility-audit', 'exploratory-qa'], nestjs: ['nestjs-module'] }
 
 function skillsOf(target) {
@@ -172,6 +172,19 @@ test('cada skill do catálogo diz quando usar e o que entrega', () => {
     assert.match(text, /description: .*(Use quando|Use para)/, `${name} deve dizer quando usar`)
     assert.match(text, /Entrega:/, `${name} deve dizer o que entrega`)
   }
+})
+
+test('a skill de TDD vale para todos, está em todos os perfis e cobre os pontos da issue', () => {
+  assert.deepEqual(catalog.skills.tdd.applies, ['all'])
+  for (const file of fs.readdirSync(path.join(h.repoRoot, 'profiles'))) {
+    const profile = JSON.parse(fs.readFileSync(path.join(h.repoRoot, 'profiles', file), 'utf8'))
+    assert.ok(profile.skills.includes('tdd'), `${file} deve trazer a skill tdd`)
+  }
+  const text = fs.readFileSync(path.join(h.repoRoot, catalog.skills.tdd.path, 'SKILL.md'), 'utf8')
+  for (const point of [/pelo motivo certo/, /código mínimo/, /tabela de adequação/, /defeito/, /bug/, /nunca altere nem apague um teste/i]) {
+    assert.match(text, point)
+  }
+  assert.doesNotMatch(text, /(npm|npx|jest|vitest|pytest|phpunit) /i)
 })
 
 const technologyStacks = {

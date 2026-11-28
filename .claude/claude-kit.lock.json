@@ -1,11 +1,11 @@
 {
   "files": {
     ".claude/agents/dev-backend.md": {
-      "hash": "f0cfbba25cec8afb0163f941470f92f203b835fad3607338132fb23d673ec587",
+      "hash": "79897e298d4305a0da7206b382895cde6f86d9530a221d64dcc470a9d924c4e8",
       "version": "1.1.0"
     },
     ".claude/agents/dev-devops.md": {
-      "hash": "569dc1bc18075d635ad77acc42a162c58e12154abf578d187bfb2cf1e4c01452",
+      "hash": "686f20fb9ff6d203d4c233f1359fd868377976c995dd85b52bd7e602eab1a551",
       "version": "1.1.0"
     },
     ".claude/agents/dev-doc.md": {
@@ -13,7 +13,7 @@
       "version": "1.1.0"
     },
     ".claude/agents/executor.md": {
-      "hash": "f2a3a982161d88d4f60d67354d0567e4af767e9b6fc28fdda3e3e8566b50bea0",
+      "hash": "dd52d6ec78911b90e6bd03b43efacc8b818ba68bd69cb7e347cbc33f747f353b",
       "version": "1.1.0"
     },
     ".claude/agents/product-owner.md": {
@@ -25,7 +25,7 @@
       "version": "1.1.0"
     },
     ".claude/agents/reviewer.md": {
-      "hash": "0010c2311e3d77207fb4c81c754c9bc7e4cbda08994a072b8e98c685e2af2cac",
+      "hash": "e05ad63198261a532f3db611c9d19947ce34cac7a8b0ca15636762240f3cec32",
       "version": "1.1.0"
     },
     ".claude/agents/sdd.md": {
@@ -86,6 +86,10 @@
     },
     ".claude/skills/documentation/SKILL.md": {
       "hash": "ebcf8a1cbf8111b3916d3708215e2d405d3058e703f5511e85e610cdc8e43bf2",
+      "version": "1.1.0"
+    },
+    ".claude/skills/tdd/SKILL.md": {
+      "hash": "13ef092707c6f2f38b94fdc107d3e202c2c0f48582e517ba585e1f23b03ba79c",
       "version": "1.1.0"
     },
     ".claude/skills/team-setup/SKILL.md": {

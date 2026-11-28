@@ -169,3 +169,18 @@ test('o padrão de git explica como commitar ao tirar um arquivo do controle de 
   assert.match(text, /`git commit -a`/)
   assert.match(text, /git commit -m "Feat :sparkles: \[#1\] Adiciona X" -- caminho\/a\.ts caminho\/b\.ts/)
 })
+
+const tddCiters = ['dev-frontend', 'dev-backend', 'dev-mobile', 'dev-devops', 'dev-database', 'dev-fullstack', 'executor', 'reviewer']
+const executorCallers = ['dev-frontend', 'dev-backend', 'dev-mobile', 'dev-devops', 'dev-database', 'dev-fullstack']
+
+test('devs que escrevem código, executor e reviewer citam a skill tdd', () => {
+  for (const name of tddCiters) {
+    assert.match(body(name), /skill `tdd`/, `${name} deve citar a skill tdd`)
+  }
+})
+
+test('a instrução que o dev passa ao executor inclui a skill tdd', () => {
+  for (const name of executorCallers) {
+    assert.match(body(name), /as regras deste time: nunca escrever comentários, TDD em lógica e comportamento \(skill `tdd`\)/, `${name} deve mandar o executor usar a skill tdd`)
+  }
+})
