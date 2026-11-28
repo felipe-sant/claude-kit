@@ -1,6 +1,6 @@
 # Skills de estado no cliente: fatia de estado e endpoint de API (Redux Toolkit)
 
-> Status: implementada (código aprovado pelo reviewer, sem achado bloqueante; T4, pedida pelo reviewer, em andamento)
+> Status: implementada (código aprovado pelo reviewer, sem achado bloqueante; T4, pedida pelo reviewer, feita)
 > Tipo: funcionalidade
 > Tamanho: media
 > Branch: feat/129-skills-redux-toolkit
@@ -141,7 +141,7 @@ Estado da aplicação e dados vindos do servidor são onde mais aparece código 
 - Gate: `npm run lint`, `npm test` e `node bin/ai-sync.js --check`. Sem typecheck nem formatador no projeto.
 - Commit: um commit de teste, `Test :test_tube: [#129] ...`, só com `tests/standards.test.js` nos caminhos.
 - Modelo: economico.
-- Status: em-andamento.
+- Status: feita (commit de1cd8e; testes de conteúdo para CA-07a e CA-07b e conferência de "Stacks detectadas" no caso de dependências de desenvolvimento; os testes de conteúdo passaram de primeira porque as frases já estavam nas skills, e a prova de retirar o trecho de propósito não foi relatada; gate ok: lint, 748 testes).
 
 ## Dúvidas
 
