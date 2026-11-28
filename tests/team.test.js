@@ -410,3 +410,16 @@ test('o README lista as regras de pull request e de issues e a contagem das regr
   assert.match(readme, /as nove regras gerais/)
   assert.match(readme, /O que muda.*Como foi verificado.*Observações/s)
 })
+
+const frontendRules = ['react-standard', 'react-organization-standard', 'style-standard', 'accessibility-standard', 'frontend-testing-standard', 'typescript-standard', 'i18n-standard']
+const frontendSkills = ['react-component', 'unit-component-testing', 'playwright-e2e', 'redux-slice', 'rtk-query-endpoint']
+
+test('o dev-frontend lê as regras de frontend instaladas antes de implementar e cita as skills de frontend', () => {
+  const text = body('dev-frontend')
+
+  for (const rule of frontendRules) assert.match(text, new RegExp('`' + rule + '`'), `deve citar ${rule}`)
+  for (const skill of frontendSkills) assert.match(text, new RegExp('`' + skill + '`'), `deve citar ${skill}`)
+  assert.match(text, /Antes de implementar, leia as regras de frontend que estiverem instaladas em `\.claude\/rules\/`/)
+  assert.match(text, /se estiverem instaladas/)
+  assert.match(text, /Regra que não está instalada não se aplica/)
+})
