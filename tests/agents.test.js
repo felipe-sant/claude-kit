@@ -51,6 +51,14 @@ test('o padrão de git proíbe adicionar tudo, manda commitar por caminho e traz
   }
 })
 
+test('o padrão de git prevê como fechar uma mesclagem com conflito', () => {
+  const text = fs.readFileSync(path.join(h.repoRoot, catalog.rules['git-standard'].path), 'utf8')
+
+  assert.match(text, /fechar uma mesclagem em andamento/)
+  assert.match(text, /git commit --no-edit/)
+  assert.match(text, /worktree própria da tarefa/)
+})
+
 test('as receitas de commit por caminho e de histórico sem editor funcionam em um repositório', () => {
   const dir = h.tempDir('git')
   const git = (...args) => spawnSync('git', args, { cwd: dir, encoding: 'utf8', env: { ...process.env, GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t' } })
