@@ -441,3 +441,7 @@ test('o qa cita as skills de QA exploratório e de auditoria de acessibilidade, 
   assert.doesNotMatch(text, /playwright-e2e/)
   assert.doesNotMatch(text, /unit-component-testing/)
 })
+
+test('o reviewer só bloqueia pelo que o código mostra e deixa o que depende de ver a tela com o qa e o designer', () => {
+  assert.match(body('reviewer'), /no que o código mostra.*o que depende de ver a tela \(aparência, foco na prática, leitor de tela\) fica com o `qa` e o `designer`/)
+})
