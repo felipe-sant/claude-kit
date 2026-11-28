@@ -104,7 +104,7 @@ Os três agentes são fonte do conteúdo sincronizado (`agents/`) e as três tar
 - Teste: unitário de conteúdo. Primeiro escreva o teste que confere, na definição do QA, `accessibility-audit` e "se estiver instalada" na mesma frase, que a citação de `exploratory-qa` continua e que `playwright-e2e` e `unit-component-testing` não aparecem; veja falhar porque a skill de acessibilidade ainda não é citada.
 - Gate: `node --test tests/team.test.js`, `npm run lint`, `node bin/ai-sync.js --check`.
 - Modelo: economico
-- Status: feita (commit 7735517; QA cita exploratory-qa e accessibility-audit "se estiver instalada"; .claude regenerado; teste falhou antes; gate final ok: lint, 782 testes, --check, npm pack; sincronização em pasta temporária com React instala as regras de frontend e sem frontend não instala nenhuma)
+- Status: feita (commits 7735517 e eb35bf2, este fazendo o teste conferir também que playwright-e2e e unit-component-testing não aparecem, CA-06, com gate ok: lint, 782 testes, --check; QA cita exploratory-qa e accessibility-audit "se estiver instalada"; .claude regenerado; teste falhou antes; gate final ok: lint, 782 testes, --check, npm pack; sincronização em pasta temporária com React instala as regras de frontend e sem frontend não instala nenhuma)
 
 ### T4. [P] Nota de mudança
 
